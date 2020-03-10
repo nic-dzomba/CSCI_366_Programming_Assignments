@@ -25,13 +25,22 @@
  * @param file - the file whose length we want to query
  * @return length of the file in bytes
  */
+
+//code found from https://codeyarns.com/2018/02/02/how-to-find-size-of-file-in-c/
 int get_file_length(ifstream *file){
+    std::ifstream in_file(file, std::ios::binary | std::ios::ate);
+    int file_size = in_file.tellg();
 }
 
 
 void Server::initialize(unsigned int board_size,
                         string p1_setup_board,
                         string p2_setup_board){
+
+    std::ifstream p1file(p1_setup_board);
+    std::ifstream p2file(p2_setup_board);
+
+
 }
 
 
