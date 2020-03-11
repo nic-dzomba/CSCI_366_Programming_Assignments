@@ -22,28 +22,70 @@ Client::~Client() {
 
 
 void Client::initialize(unsigned int player, unsigned int board_size){
-    using json = nlohmann::json;
-
-    int board[board_size][board_size];
-
-    json action_board = {
-            {"board", board}
-    };
-
-    std::ofstream oput("player_%d.action_board.json", player);
-    oput << std::setw(4) << result_json << std::endl;
+//    using json = nlohmann::json;
+//
+//    int board[board_size][board_size];
+//
+//    json action_board = {
+//            {"board", board}
+//    };
+//
+//    std::ofstream oput("player_%d.action_board.json", player);
+//    oput << std::setw(4) << result_json << std::endl;
 }
 
 
 void Client::fire(unsigned int x, unsigned int y) {
+
+//    using json = nlohmann::json;
+//
+//    json fire_file {
+//            {"x", x}
+//            {"y", y}
+//    };
+//
+//    std::ofstream oput("player_%d.shot.json", player);
+//    oput << std::setw(4) << result_json << std::endl;
+
 }
 
 
 bool Client::result_available() {
+
+//    using json = nlohnmann::json;
+//
+//    json result;
+//
+//    std::ifstream result_data("player_%d.shot.json", player);
+//
+//    if (!shot_data.is_open()) {
+//        return false;
+//    }
+//
+//    shot_data >> result;
+//    shot_data.close();
+//
+//    return true;
+
 }
 
 
 int Client::get_result() {
+
+//    using json = nlohnmann::json;
+//
+//    json result;
+//
+//    std::ifstream result_data("player_%d.shot.json", player);
+//
+//    shot_data >> result;
+//    shot_data.close();
+//
+//    if (j.find("result") != j.end()) {
+//        int intresult = j["result"];
+//    }
+//
+//    return intresult;
 }
 
 
