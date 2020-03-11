@@ -30,6 +30,7 @@
 int get_file_length(ifstream *file){
     std::ifstream in_file(file, std::ios::binary | std::ios::ate);
     int file_size = in_file.tellg();
+    return file_size;
 }
 
 
@@ -39,6 +40,40 @@ void Server::initialize(unsigned int board_size,
 
     std::ifstream p1file(p1_setup_board);
     std::ifstream p2file(p2_setup_board);
+
+    int counter = 0;
+    while(std::getline(p1file, str)) {
+        std::cout << str << "\n"
+
+        if (str.length() == board_size) {
+            counter += 1
+        } else {
+            throw  "Player 1 Board has an incorrect line"
+        }
+    }
+
+    if (counter != board_size + 1) {
+        throw "Player 1 Board has incorrect length"
+    }
+
+    counter = 0;
+
+    while(std::getline(p2file, str)) {
+        std::cout << str << "\n"
+
+        if (str.length() == board_size) {
+            counter += 1
+        } else {
+            throw  "Player 2 Board has an incorrect line"
+        }
+    }
+
+    if (counter != board_size + 1) {
+        throw "Player 2 Board has incorrect length"
+    }
+
+    
+
 
 
 }
