@@ -22,6 +22,16 @@ Client::~Client() {
 
 
 void Client::initialize(unsigned int player, unsigned int board_size){
+    using json = nlohmann::json;
+
+    int board[board_size][board_size];
+
+    json action_board = {
+            {"board", board}
+    };
+
+    std::ofstream oput("player_%d.action_board.json", player);
+    oput << std::setw(4) << result_json << std::endl;
 }
 
 
