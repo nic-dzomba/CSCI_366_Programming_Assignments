@@ -83,8 +83,6 @@ void Server::initialize(unsigned int board_size,
     counter = 0;
 
     while(std::getline(p2file, str)) {
-        std::cout << str << "\n";
-
         if (str.length() == board_size) {
             for (int i = 0; i < sizeof(str); i++)
                 p2array[counter][i] = str[i];
@@ -106,8 +104,6 @@ int Server::evaluate_shot(unsigned int player, unsigned int x, unsigned int y) {
     if ((player < 1) || (player > 2)) {
         throw "player number out of bounds";
     }
-
-    printf("%d, %d, %d\n", x, y, BOARD_SIZE);
 
     if ((x > (BOARD_SIZE - 1)) || (y > (BOARD_SIZE - 1))) {
         return OUT_OF_BOUNDS;
@@ -138,35 +134,35 @@ int Server::process_shot(unsigned int player) {
         throw "player number out of bounds";
     }
 
-    using json = nlohmann::json;
-    json j;
-    std::ifstream shot_data("player_%d.shot.json", player);
+    char buffer [50];
+    sprintf(buffer, "player_%d.fire.json", player);
+    std::ifstream inp(buffer);
 
-    if (!shot_data.is_open()) {
-        return NO_SHOT_FILE;
-    }
+    std::string str2;
 
-    shot_data >> j;
-    shot_data.close();
+
+    int counter = 0;
 
     int x;
-    if (j.find("x") != j.end()) {
-        x = j["x"];
+    int y;
+    while(std::getline(inp, str2)) {
+        if (counter == 1) {
+            int x = str2.at(9);
+            counter += 1;
+        } else if (counter == 2) {
+            int y = str2.at(9);
+            counter += 1;
+        } else {
+            counter += 1;
+        }
     }
 
-    int y;
-    if (j.find("y") != j.end()) {
-        y = j["y"];
-    }
+    printf("x: %d, y: %d\n", x, y);
+
+
 
     int result = evaluate_shot(player, x, y);
 
-    json result_json = {
-            {"result", result}
-    };
-
-    std::ofstream oput("player_%d.result.json", player);
-    oput << std::setw(4) << result_json << std::endl;
 
     return SHOT_FILE_PROCESSED;
 }
