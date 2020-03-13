@@ -21,6 +21,18 @@
 #include <iomanip>
 #include <cereal/archives/json.hpp>
 
+struct fire_struct
+{
+    int x, y;
+
+    // This method lets cereal know which data members to serialize
+    template<class Archive>
+    void serialize(Archive & archive)
+    {
+        archive(x, y); // serialize things by passing them to the archive
+    }
+};
+
 
 /**
  * Calculate the length of a file (helper function)
@@ -65,8 +77,6 @@ void Server::initialize(unsigned int board_size,
     int counter = 0;
 
     while(std::getline(p1file, str)) {
-        std::cout << str << "\n";
-
         if (str.length() == board_size) {
             for (int i = 0; i < sizeof(str); i++)
                 p1array[counter][i] = str[i];
@@ -134,28 +144,26 @@ int Server::process_shot(unsigned int player) {
         throw "player number out of bounds";
     }
 
+    fire_struct fire1;
+
     char buffer [50];
     sprintf(buffer, "player_%d.fire.json", player);
-    std::ifstream inp(buffer);
 
-    std::string str2;
-
-
-    int counter = 0;
+    printf(buffer);
 
     int x;
     int y;
-    while(std::getline(inp, str2)) {
-        if (counter == 1) {
-            int x = str2.at(9);
-            counter += 1;
-        } else if (counter == 2) {
-            int y = str2.at(9);
-            counter += 1;
-        } else {
-            counter += 1;
-        }
+
+    std::ifstream inp(buffer);
+    printf("1\n");
+    {
+        cereal::JSONInputArchive archive(inp);
+        archive(fire1);
     }
+    printf("2\n");
+
+    x = fire1.x;
+    y = fire1.y;
 
     printf("x: %d, y: %d\n", x, y);
 
