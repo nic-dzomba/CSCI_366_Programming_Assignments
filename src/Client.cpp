@@ -27,6 +27,9 @@ Client::~Client() {
 
 void Client::initialize(unsigned int player, unsigned int board_size){
 
+    Client::player = player;
+    Client::board_size = player;
+
     vector<vector<int>> board;
 
     board.resize(board_size, std::vector<int>(board_size));
@@ -44,17 +47,18 @@ void Client::initialize(unsigned int player, unsigned int board_size){
 
 
 void Client::fire(unsigned int x, unsigned int y) {
+    json fire_file;
 
-//    using json = nlohmann::json;
-//
-//    json fire_file {
-//            {"x", x}
-//            {"y", y}
-//    };
-//
-//    std::ofstream oput("player_%d.shot.json", player);
-//    oput << std::setw(4) << result_json << std::endl;
+    fire_file["x"] = x;
 
+    fire_file["y"] = y;
+
+    string oname = "player_";
+    oname += to_string(player);
+    oname += ".shot.json";
+
+    std::ofstream oput(oname);
+    oput << std::setw(4) << fire_file;
 }
 
 
@@ -78,21 +82,28 @@ bool Client::result_available() {
 
 
 int Client::get_result() {
+    string fname = "player_";
+    fname += to_string(player);
+    fname += ".shot.json";
 
-//    using json = nlohnmann::json;
-//
-//    json result;
-//
-//    std::ifstream result_data("player_%d.shot.json", player);
-//
-//    shot_data >> result;
-//    shot_data.close();
-//
-//    if (j.find("result") != j.end()) {
-//        int intresult = j["result"];
-//    }
-//
-//    return intresult;
+    std::ifstream inp(fname);
+    json resultf;
+    inp >> resultf;
+
+    int result = resultf["result"];
+
+
+    char fnamechar[fname.size() + 1];
+    strcpy(fnamechar, fname.c_str());
+
+    remove(fnamechar);
+
+    printf("%d", result);
+
+    return result;
+
+
+
 }
 
 

@@ -142,8 +142,10 @@ int Server::process_shot(unsigned int player) {
     json fire;
     inp >> fire;
 
-    int x = fire["x"];
-    int y = fire["y"];
+    //not sure why it works reversed, i think i init parrays backwards
+
+    int y = fire["x"];
+    int x = fire["y"];
 
     int result = evaluate_shot(player, x, y);
 
