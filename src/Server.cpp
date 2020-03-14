@@ -20,6 +20,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <iomanip>
+#include <stdio.h>
 
 // for convenience
 using json = nlohmann::json;
@@ -157,9 +158,15 @@ int Server::process_shot(unsigned int player) {
     oname += ".result.json";
 
     std::ofstream out(oname);
-    out << std::setw(4) << result_file << std::endl;
+    out << std::setw(4) << result_file;
 
     cout << result_file;
+
+    char fnamechar[fname.size() + 1];
+    strcpy(fnamechar, fname.c_str());
+
+    remove(fnamechar);
+
 
     return SHOT_FILE_PROCESSED;
 }

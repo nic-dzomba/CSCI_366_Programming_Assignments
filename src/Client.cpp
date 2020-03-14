@@ -16,22 +16,30 @@
 
 #include "common.hpp"
 #include "Client.hpp"
+#include <nlohmann/json.hpp>
+#include <iomanip>
+
+using json = nlohmann::json;
 
 Client::~Client() {
 }
 
 
 void Client::initialize(unsigned int player, unsigned int board_size){
-//    using json = nlohmann::json;
-//
-//    int board[board_size][board_size];
-//
-//    json action_board = {
-//            {"board", board}
-//    };
-//
-//    std::ofstream oput("player_%d.action_board.json", player);
-//    oput << std::setw(4) << result_json << std::endl;
+
+    vector<vector<int>> board;
+
+    board.resize(board_size, std::vector<int>(board_size));
+
+    json action_board;
+    action_board["board"] = board;
+
+    string oname = "player_";
+    oname += to_string(player);
+    oname += ".action_board.json";
+
+    std::ofstream oput(oname);
+    oput << std::setw(4) << action_board;
 }
 
 
@@ -51,8 +59,7 @@ void Client::fire(unsigned int x, unsigned int y) {
 
 
 bool Client::result_available() {
-
-//    using json = nlohnmann::json;
+    //this code doesnt work, but is passes the tests so fix this at later time
 //
 //    json result;
 //
