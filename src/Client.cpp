@@ -92,6 +92,10 @@ int Client::get_result() {
 
     int result = resultf["result"];
 
+    if (result < -1 || result > 1) {
+        throw "lmao nice try with that bad result get that trash outta my face";
+    }
+
 
     char fnamechar[fname.size() + 1];
     strcpy(fnamechar, fname.c_str());
@@ -109,6 +113,22 @@ int Client::get_result() {
 
 
 void Client::update_action_board(int result, unsigned int x, unsigned int y) {
+    string fname = "player_";
+    fname += to_string(player);
+    fname += ".action_board.json";
+
+    std::ifstream inp(fname);
+    json abjson;
+    inp >> abjson;
+
+    vector<vector<int>> board;
+    board.resize(board_size, std::vector<int>(board_size));
+
+    abjson["board"][x][y] = result;
+
+    std::ofstream oput(fname);
+    oput << std::setw(4) << abjson;
+
 }
 
 
