@@ -105,7 +105,9 @@ int Server::evaluate_shot(unsigned int player, unsigned int x, unsigned int y) {
         throw "player number out of bounds";
     }
 
-    if ((x > (BOARD_SIZE - 1)) || (y > (BOARD_SIZE - 1))) {
+    if ((x > (board_size - 1)) || x < 0) {
+        return OUT_OF_BOUNDS;
+    } else if (y > board_size - 1 || y < 0) {
         return OUT_OF_BOUNDS;
     }
 
@@ -149,11 +151,8 @@ int Server::process_shot(unsigned int player) {
 
     int result = evaluate_shot(player, x, y);
 
-    printf("%d", result);
-
     json result_file;
     result_file["result"] = result;
-
 
     string oname = "player_";
     oname += to_string(player);
