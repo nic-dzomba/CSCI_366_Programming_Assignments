@@ -7,6 +7,7 @@ execute_process(COMMAND dos2unix ${PROJECT_SOURCE_DIR}/cmake-build-debug/src/pla
 execute_process(COMMAND dos2unix ${PROJECT_SOURCE_DIR}/cmake-build-debug/src/player_2.setup_board.txt)
 
 include_directories(${PROJECT_SOURCE_DIR}/cereal/include)
+include_directories(${PROJECT_SOURCE_DIR}/single_include)
 
 add_library(SERVER Server.cpp Server.hpp)
 

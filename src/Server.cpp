@@ -18,20 +18,11 @@
 #include "common.hpp"
 #include "Server.hpp"
 #include <fstream>
+#include <nlohmann/json.hpp>
 #include <iomanip>
-#include <cereal/archives/json.hpp>
 
-struct fire_struct
-{
-    int x, y;
-
-    // This method lets cereal know which data members to serialize
-    template<class Archive>
-    void serialize(Archive & archive)
-    {
-        archive(x, y); // serialize things by passing them to the archive
-    }
-};
+// for convenience
+using json = nlohmann::json;
 
 
 /**
@@ -53,8 +44,6 @@ int get_file_length(ifstream *file){
 char p1array[BOARD_SIZE][BOARD_SIZE];
 char p2array[BOARD_SIZE][BOARD_SIZE];
 
-
-class json;
 
 void Server::initialize(unsigned int board_size,
                         string p1_setup_board,
@@ -144,33 +133,33 @@ int Server::process_shot(unsigned int player) {
         throw "player number out of bounds";
     }
 
-    fire_struct fire1;
+    string fname = "player_";
+    fname += to_string(player);
+    fname += ".shot.json";
 
-    char buffer [50];
-    sprintf(buffer, "player_%d.fire.json", player);
+    std::ifstream inp(fname);
+    json fire;
+    inp >> fire;
 
-    printf(buffer);
-
-    int x;
-    int y;
-
-    std::ifstream inp(buffer);
-    printf("1\n");
-    {
-        cereal::JSONInputArchive archive(inp);
-        archive(fire1);
-    }
-    printf("2\n");
-
-    x = fire1.x;
-    y = fire1.y;
-
-    printf("x: %d, y: %d\n", x, y);
-
-
+    int x = fire["x"];
+    int y = fire["y"];
 
     int result = evaluate_shot(player, x, y);
 
+    printf("%d", result);
+
+    json result_file;
+    result_file["result"] = result;
+
+
+    string oname = "player_";
+    oname += to_string(player);
+    oname += ".result.json";
+
+    std::ofstream out(oname);
+    out << std::setw(4) << result_file << std::endl;
+
+    cout << result_file;
 
     return SHOT_FILE_PROCESSED;
 }
