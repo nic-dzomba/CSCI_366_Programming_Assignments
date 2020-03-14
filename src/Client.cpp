@@ -84,7 +84,7 @@ bool Client::result_available() {
 int Client::get_result() {
     string fname = "player_";
     fname += to_string(player);
-    fname += ".shot.json";
+    fname += ".result.json";
 
     std::ifstream inp(fname);
     json resultf;
